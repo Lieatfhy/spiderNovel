@@ -1,5 +1,7 @@
 # coding=utf-8
-# This is a sample Python script.
+# dijiubook
+# 《暗恋我的豪门大佬也重生了》：73_73546
+# 《毛球魔君绝不当冤种弟子【正文+番外】》：79_79188
 import requests
 import re
 from lxml import etree
@@ -43,6 +45,9 @@ print(name)
 print(urlStart)
 nodeBaseUrl = int(urlStart.split('/')[2].split('.html')[0])
 print('获取小说内容')
+fileTitle = html.xpath('//div[@id="info"]/h1')[0].text
+fileTitle = fileTitle + '.txt'
+print(fileTitle)
 # name = 283
 text = ""
 # index = 0
@@ -60,7 +65,7 @@ for index in range(name):
 text = re.sub('\n','',text)
 print(text)
 text = text.encode('gbk', 'ignore').decode('gbk')
-file = open("1.txt", 'w')
+file = open(fileTitle, 'a')
 file.write(text)
 file.close()
 print('写入小说内容成功')
