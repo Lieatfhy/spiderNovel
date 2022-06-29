@@ -4,13 +4,14 @@
 # 《被迫上萌娃综艺后爆红[重生]》： /book_other_144948
 # 《病美人放弃挣扎[重生]》： /book_other_84610
 # 《拯救偏执反派Alpha》： /book_other_9419
-# 《拯救偏执反派Alpha》： /book_other_140010
+# 《猫为你操碎了心[穿书]》： /book_other_140010
+# 《拯救偏执反派Alpha》： /book_other_141424
 import requests
 import re
 from lxml import etree
 url = "https://www.babayu.com"
 print('开始获取章节列表')
-page = requests.get(url+'/book_other_140010'+'.html')
+page = requests.get(url+'/book_other_141424'+'.html')
 page.encoding = 'utf-8'
 html = etree.HTML(page.text)
 aList = html.xpath('//*[@class="clearfix chapter-list"]/li/span/a')
