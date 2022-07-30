@@ -9,20 +9,34 @@
 # 《二爷家的麻雀成精了》： /book_other_141260
 # 《带球跑后大美人后悔了》： /book_other_141806
 # 《重生后国师靠玄学爆红了》： /book_other_96615
+# 《人鱼崽崽修仙爆红星际》： /book_other_140809
+import random
+import time
 
 import requests
 import re
 from lxml import etree
-url = "https://www.babayu.com"
-page = requests.get(url + '/book_other_96615' + '.html')
+time.sleep(0.5)
+
+url = "http://www.babayu.com"
+user_agent_list = ["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
+                    "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36",
+                    "Mozilla/5.0 (Windows NT 10.0; WOW64) Gecko/20100101 Firefox/61.0",
+                    "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36",
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.62 Safari/537.36",
+                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36",
+                    "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)",
+                    "Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10.5; en-US; rv:1.9.2.15) Gecko/20110303 Firefox/3.6.15",
+                    ]
+page = requests.get(url + '/book_other_140809' + '.html',params={'params':'1'},headers = {'User-Agent': random.choice(user_agent_list)})
 page.encoding = 'utf-8'
 html = etree.HTML(page.text)
 aList = html.xpath('//*[@class="clearfix chapter-list"]/li/span/a')
 nameList = []
 urlList = []
-startPush = False
 urlStart = ""
 print("aList",aList)
+time.sleep(0.5)
 for i in aList:
     href = i.get('href')
     text = i.text
@@ -42,6 +56,7 @@ for index,val in enumerate(urlList):
     print(nameList[index])
     file.write(nameList[index] + '\n')
     nodePage = requests.get(url+urlList[index])
+    time.sleep(0.5)
     nodePage.encoding = 'utf-8'
     nodeHtml = etree.HTML(nodePage.text)
     contentLen = nodeHtml.xpath('//*[@class="article-title"]/text()')[0]
@@ -58,7 +73,7 @@ for index,val in enumerate(urlList):
             nodeurl = url+urlList[index]
         else:
             nodeurl = url + urlList[index].split('.html')[0] + '_' + str(i+1)+'.html'
-        nodePage = requests.get(nodeurl)
+        nodePage = requests.get(nodeurl,params={'params':'1'},headers = {'User-Agent': random.choice(user_agent_list)})
         nodePage.encoding = 'utf-8'
         nodeHtml = etree.HTML(nodePage.text)
         nodeContent = nodeHtml.xpath('//*[@id="BookText"]/p/text()')
