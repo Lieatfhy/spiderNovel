@@ -8,11 +8,13 @@
 # 《拯救偏执反派Alpha》： /book_other_141424
 # 《二爷家的麻雀成精了》： /book_other_141260
 # 《带球跑后大美人后悔了》： /book_other_141806
+# 《重生后国师靠玄学爆红了》： /book_other_96615
+
 import requests
 import re
 from lxml import etree
 url = "https://www.babayu.com"
-page = requests.get(url + '/book_other_141806' + '.html')
+page = requests.get(url + '/book_other_96615' + '.html')
 page.encoding = 'utf-8'
 html = etree.HTML(page.text)
 aList = html.xpath('//*[@class="clearfix chapter-list"]/li/span/a')
