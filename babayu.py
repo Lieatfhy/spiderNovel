@@ -10,6 +10,7 @@
 # 《带球跑后大美人后悔了》： /book_other_141806
 # 《重生后国师靠玄学爆红了》： /book_other_96615
 # 《人鱼崽崽修仙爆红星际》： /book_other_140809
+# 《和人鱼大佬联姻后》： /book_other_139166
 import random
 import time
 
@@ -28,7 +29,7 @@ user_agent_list = ["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHT
                     "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)",
                     "Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10.5; en-US; rv:1.9.2.15) Gecko/20110303 Firefox/3.6.15",
                     ]
-page = requests.get(url + '/book_other_140809' + '.html',params={'params':'1'},headers = {'User-Agent': random.choice(user_agent_list)})
+page = requests.get(url + '/book_other_139166' + '.html',params={'params':'1'},headers = {'User-Agent': random.choice(user_agent_list)})
 page.encoding = 'utf-8'
 html = etree.HTML(page.text)
 aList = html.xpath('//*[@class="clearfix chapter-list"]/li/span/a')
