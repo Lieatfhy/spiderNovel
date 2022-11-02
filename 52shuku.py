@@ -4,9 +4,10 @@
 import requests
 import re
 from lxml import etree
+
 url = "//www.52shuku.vip"
 print('开始获取章节列表')
-page = requests.get('https://www.52shuku.vip/xiandaidushi/b/h7Li.html')
+page = requests.get('https://www.52shuku.vip/jiakong/b/bjL0i.html')
 page.encoding = 'UTF-8'
 html = etree.HTML(page.text)
 aList = html.xpath('//*[@class="mulu"]/a')

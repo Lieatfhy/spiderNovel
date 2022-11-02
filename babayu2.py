@@ -1,16 +1,7 @@
 # coding=utf-8
 # 巴巴鱼
-# 《撒旦Alpha的娇宠甜妻[穿书]》： /book_other_137912
-# 《被迫上萌娃综艺后爆红[重生]》： /book_other_144948
-# 《病美人放弃挣扎[重生]》： /book_other_84610
-# 《拯救偏执反派Alpha》： /book_other_9419
-# 《猫为你操碎了心[穿书]》： /book_other_140010
-# 《拯救偏执反派Alpha》： /book_other_141424
-# 《二爷家的麻雀成精了》： /book_other_141260
-# 《带球跑后大美人后悔了》： /book_other_141806
-# 《重生后国师靠玄学爆红了》： /book_other_96615
-# 《人鱼崽崽修仙爆红星际》： /book_other_140809
-# 《和人鱼大佬联姻后》： /book_other_139166
+# 《被迫玄学出道后我红了》： /book_other_80105
+# 《被迫玄学出道后我红了》： /book_other_140188
 import random
 import time
 
@@ -19,7 +10,7 @@ import re
 from lxml import etree
 time.sleep(0.5)
 
-url = "http://www.babayu.com"
+url = "https://www.babayu.tv"
 user_agent_list = ["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
                     "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36",
                     "Mozilla/5.0 (Windows NT 10.0; WOW64) Gecko/20100101 Firefox/61.0",
@@ -60,14 +51,17 @@ for index,val in enumerate(urlList):
     time.sleep(0.5)
     nodePage.encoding = 'utf-8'
     nodeHtml = etree.HTML(nodePage.text)
-    contentLen = nodeHtml.xpath('//*[@class="article-title"]/text()')[0]
-    print("contentLen",contentLen)
-    if len(str(contentLen).split('/'))>1 :
-        contentLen = str(contentLen).split('/')[1].split(')')[0]
-        contentLen = int(contentLen)
+    print("contentLen",nodeHtml.xpath('//*[@class="article-title"]/text()'))
+    titleList = nodeHtml.xpath('//*[@class="article-title"]/text()')
+    if len(titleList) > 0:
+        contentLen = titleList[0]
         print("contentLen",contentLen)
-    else:
-        contentLen = 1
+        if len(str(contentLen).split('/'))>1 :
+            contentLen = str(contentLen).split('/')[1].split(')')[0]
+            contentLen = int(contentLen)
+            print("contentLen",contentLen)
+        else:
+            contentLen = 1
     for i in range(contentLen):
         nodeurl = ""
         if i == 0:
