@@ -1,6 +1,10 @@
 # coding=utf-8
 # bookba
-# 爬取《我没信息素，你闻错了》 https://www.biquge.city/59_59142/
+# 爬取《全网黑被小祖宗在综艺带飞》 http://fushutxt.cc/chuanyuechongsheng/44414.html
+import ast
+import json
+import os.path
+
 import requests
 import re
 import time
@@ -8,7 +12,7 @@ from lxml import etree
 import random
 time.sleep(0.5)
 url = "http://fushutxt.cc"
-novelUrl = "/chuanyuechongsheng/44414.html"
+novelUrl = "/chuanyuechongsheng/44210.html"
 user_agent_list = ["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
                     "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36",
                     "Mozilla/5.0 (Windows NT 10.0; WOW64) Gecko/20100101 Firefox/61.0",
@@ -24,30 +28,56 @@ page.encoding = 'utf-8'
 print("page",page)
 html = etree.HTML(page.text)
 print("html",html)
+print(html.xpath('/html/head/title'))
 fileTitle = html.xpath('/html/head/title/text()')[0]
 print("title",fileTitle)
 aList = html.xpath('//*[@name="titleselect"]/option')
 print("aList",len(aList))
+jsonTitle = fileTitle + '.json'
+
+def str_to_dict(fileName):
+    f = open(fileName, 'r')
+    size = os.path.getsize(fileName)
+    string = f.read(size)
+    if len(string) == 0:
+        return {}
+    result = json.loads(string)
+    return result
+
+with open(jsonTitle, 'r') as jsonFile:
+    print(os.path.getsize(jsonTitle) == 0)
+    if os.path.getsize(jsonTitle) == 0:
+        fileJson = {}
+    else:
+        fileJson = str_to_dict(jsonTitle)
+print("fileJson",fileJson)
 urlList = []
 for i in aList:
     href = i.get('value')
     text = i.text
+    fileJson.setdefault(href,'')
     urlList.append(href)
+jsonFile = open(jsonTitle, 'w')
+jsonFile.write(json.dumps(fileJson, ensure_ascii=False, indent=4))
 print(len(urlList))
 print('获取章节目录成功')
 print('获取小说内容')
 fileTitle = fileTitle + '.txt'
 print(fileTitle)
-file = open(fileTitle, 'a')
+file = open(fileTitle, 'w')
 # index = 0
 for index,val in enumerate(urlList):
-    time.sleep(0.5)
-    print(index)
-    nodePage = requests.get(url+urlList[index])
-    print("nodePageUrl",url+urlList[index])
-    nodePage.encoding = 'utf-8'
-    nodeHtml = etree.HTML(nodePage.text)
-    contentLen = nodeHtml.xpath('//*[@class="wwwfushutxtcc"]/p/text()')
+    if fileJson[urlList[index]] == '':
+        time.sleep(0.5)
+        print(index)
+        nodePage = requests.get(url+urlList[index])
+        print("nodePageUrl",url+urlList[index])
+        nodePage.encoding = 'utf-8'
+        nodeHtml = etree.HTML(nodePage.text)
+        contentLen = nodeHtml.xpath('//*[@class="wwwfushutxtcc"]/p/text()')
+    else:
+        print(fileJson[urlList[index]])
+        contentLen = fileJson[urlList[index]]
     print("contentLen",contentLen)
     for item in contentLen:
         item = item.replace(' ', '')
@@ -55,5 +85,9 @@ for index,val in enumerate(urlList):
         item = re.sub('\n', '', item)
         file.write(item.encode('utf-8', 'ignore').decode('utf-8')+'\n')
     print('第'+str(index+1)+'章获取成功')
+    fileJson[urlList[index]] = contentLen
+    jsonFile = open(jsonTitle, 'w')
+    jsonFile.write(json.dumps(fileJson, ensure_ascii=False, indent=4))
 file.close()
+jsonFile.close()
 print('写入小说内容成功')
