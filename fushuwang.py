@@ -25,6 +25,10 @@ config = str_to_dict('config')
 print(config)
 jsonAddress = config['json']
 fileAddress = config['data']
+if not os.path.exists(jsonAddress):
+    os.makedirs(jsonAddress)
+if not os.path.exists(fileAddress):
+    os.makedirs(fileAddress)
 
 url = "http://fushutxt.cc"
 novelUrl = "/chuanyuechongsheng/44210.html"
