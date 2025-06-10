@@ -11,6 +11,21 @@ import time
 from lxml import etree
 import random
 time.sleep(0.5)
+def str_to_dict(fileName):
+    f = open(fileName, 'r')
+    size = os.path.getsize(fileName)
+    string = f.read(size)
+    print(string)
+    if len(string) == 0:
+        return {}
+    result = json.loads(string)
+    return result
+
+config = str_to_dict('config')
+print(config)
+jsonAddress = config['json']
+fileAddress = config['data']
+
 url = "http://fushutxt.cc"
 novelUrl = "/chuanyuechongsheng/44210.html"
 user_agent_list = ["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
@@ -33,16 +48,7 @@ fileTitle = html.xpath('/html/head/title/text()')[0]
 print("title",fileTitle)
 aList = html.xpath('//*[@name="titleselect"]/option')
 print("aList",len(aList))
-jsonTitle = fileTitle + '.json'
-
-def str_to_dict(fileName):
-    f = open(fileName, 'r')
-    size = os.path.getsize(fileName)
-    string = f.read(size)
-    if len(string) == 0:
-        return {}
-    result = json.loads(string)
-    return result
+jsonTitle = jsonAddress + '/' + fileTitle + '.json'
 
 with open(jsonTitle, 'r') as jsonFile:
     print(os.path.getsize(jsonTitle) == 0)
@@ -62,7 +68,7 @@ jsonFile.write(json.dumps(fileJson, ensure_ascii=False, indent=4))
 print(len(urlList))
 print('获取章节目录成功')
 print('获取小说内容')
-fileTitle = fileTitle + '.txt'
+fileTitle = fileAddress + '/' + fileTitle + '.txt'
 print(fileTitle)
 file = open(fileTitle, 'w')
 # index = 0
