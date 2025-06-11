@@ -31,7 +31,9 @@ if not os.path.exists(fileAddress):
     os.makedirs(fileAddress)
 
 url = "http://fushutxt.cc"
-novelUrl = "/chuanyuechongsheng/44210.html"
+
+novelUrl = input("请输入地址: ")
+# novelUrl = "/chuanyuechongsheng/44626.html"
 user_agent_list = ["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
                     "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36",
                     "Mozilla/5.0 (Windows NT 10.0; WOW64) Gecko/20100101 Firefox/61.0",
@@ -53,6 +55,9 @@ print("title",fileTitle)
 aList = html.xpath('//*[@name="titleselect"]/option')
 print("aList",len(aList))
 jsonTitle = jsonAddress + '/' + fileTitle + '.json'
+if not os.path.exists(jsonTitle):
+    with open(jsonTitle, 'w') as file:
+        file.write('')
 
 with open(jsonTitle, 'r') as jsonFile:
     print(os.path.getsize(jsonTitle) == 0)
